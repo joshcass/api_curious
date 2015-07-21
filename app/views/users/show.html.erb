@@ -9,8 +9,25 @@
     <div class="col-md-8">
         <div class="panel panel-info">
             <div class="panel-heading">Tweet composer will go here</div>
-            <div class="panel-body">
-                Twitter activity will go here
+            <div class="panel-body tweet-box">
+                <ul class="list-group">
+                    <% current_user.twitter_timeline.each do |tweet| %>
+                        <li class="list-group-item">
+                            <%= image_tag tweet.user.profile_image_uri(size = :normal), class: 'img-rounded pull-left', style: 'margin-right: 10px' %>
+                            <p class="list-group-item-heading">
+                                <%= link_to "https://twitter.com/#{tweet.user.screen_name}" do %>
+                                    <%= tweet.user.name  %>
+                                    <%= "@#{tweet.user.screen_name}" %>
+                                <% end %>
+                                <%= time_ago_in_words tweet.created_at  %> ago
+                            </p>
+                            <p class="list-group-item-text"><%= auto_link(tweet.text).html_safe %></p>
+                            <% if tweet.media? %>
+                                <p><%= image_tag tweet.media.first.media_url, class: 'img-rounded' %> </p>
+                            <% end %>
+                        </li>
+                    <% end %>
+                </ul>
             </div>
         </div>
     </div>
