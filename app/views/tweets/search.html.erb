@@ -1,0 +1,15 @@
+<div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-info">
+        <div class="panel-heading text-center">
+            Results for: <%= @search_query  %>
+        </div>
+        <div class="panel-body result-box">
+            <ul class="list-group">
+                <% @search_results.each do |tweet| %>
+                    <%= render partial: 'shared/tweets', locals: {tweet: tweet}  %>
+                <% end %>
+            </ul>
+        </div>
+    </div>
+</div>
+<%= render partial: 'shared/reply'  %>

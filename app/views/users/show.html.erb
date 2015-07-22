@@ -1,17 +1,34 @@
 <div class="container-fluid">
     <div class="col-md-4">
         <div class="panel panel-default">
-            <div class="panel-body">
-                User Info will go here
+            <div class="panel-body" style="background-image: url('<%= image_path current_user.info.profile_banner_uri(size = :web) %>'); background-height: 10%;">
+                <p><%= image_tag current_user.info.profile_image_uri(size = :bigger), class: 'img-rounded pull-left', style: 'margin-right: 20px' %></p>
+                <p class="white"><%= current_user.info.name %></p>
+                <p class="white">@<%= current_user.info.screen_name %></p><br>
+                <p class="white">Tweets: <%= current_user.info.tweets_count %></p>
+                <p class="white">Following: <%= current_user.info.friends_count %></p>
+                <p class="white">Followers: <%= current_user.info.followers_count %></p>
             </div>
         </div>
     </div>
     <div class="col-md-8">
         <div class="panel panel-info">
-            <div class="panel-heading">Tweet composer will go here</div>
-            <div class="panel-body">
-                Twitter activity will go here
+            <div class="panel-heading">
+                <%= form_for :tweet, url: tweets_path do |f| %>
+                    <div class="form-group">
+                        <%= f.text_area(:status, placeholder: "What's happening?", class: 'form-control')  %>
+                    </div>
+                    <%= f.submit "Tweet", class: "btn btn-info" %>
+                <% end %>
+            </div>
+            <div class="panel-body tweet-box">
+                <ul class="list-group tweet-list">
+                    <% current_user.twitter_timeline.each do |tweet| %>
+                        <%= render partial: 'shared/tweets', locals: {tweet: tweet}  %>
+                    <% end %>
+                </ul>
             </div>
         </div>
     </div>
 </div>
+<%= render partial: 'shared/reply'  %>
