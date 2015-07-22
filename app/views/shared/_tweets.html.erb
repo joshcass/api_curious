@@ -1,0 +1,44 @@
+<li class="list-group-item" id="<%= tweet.id  %>">
+    <%= image_tag tweet.user.profile_image_uri(size = :normal), class: 'img-rounded pull-left', style: 'margin-right: 10px' %>
+    <p class="list-group-item-heading">
+        <%= link_to "https://twitter.com/#{tweet.user.screen_name}" do %>
+            <%= tweet.user.name  %>
+            <%= "@#{tweet.user.screen_name}" %>
+        <% end %>
+        <%= time_ago_in_words tweet.created_at  %> ago
+    </p>
+    <p class="list-group-item-text"><%= auto_link(tweet.text).html_safe %></p>
+    <% if tweet.media? %>
+        <p><%= image_tag tweet.media.first.media_url, class: 'img-rounded' %> </p>
+    <% end %>
+    <p>
+        <% if tweet.user.id.to_s == current_user.uid %>
+            <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+        <% else %>
+            <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#replyModal" data-name="<%= tweet.user.screen_name %>" data-id="<%= tweet.id %>">
+                <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+            </button>
+        <% end %>
+        <% if tweet.user.id.to_s == current_user.uid %>
+            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+            <%= tweet.retweet_count  %>
+        <% else %>
+            <%= link_to retweet_tweet_path(tweet.id), method: :post do %>
+                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                <%= tweet.retweet_count  %>
+            <% end %>
+        <% end %>
+
+        <% if tweet.favorited? %>
+            <%= link_to unfavorite_tweet_path(tweet.id), method: :post do %>
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                <%= tweet.favorite_count %>
+            <% end %>
+        <% else %>
+            <%= link_to favorite_tweet_path(tweet.id), method: :post do %>
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                <%= tweet.favorite_count %>
+            <% end %>
+        <% end %>
+    </p>
+</li>

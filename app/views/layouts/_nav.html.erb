@@ -9,34 +9,55 @@
                 <span class="icon-bar"></span>
             </button>
         </div>
-       <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+                <li class="active"><%= link_to "Home", current_user %></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="form">
-                    <form class="navbar-form" role="search">
+                    <%= form_for :tweet, url: search_tweets_path, html: {class: "navbar-form"} do |f| %>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search">
+                            <%= f.text_field(:query, placeholder: "Search Twitter", class: "form-control") %>
                         </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>
+                        <%= f.submit "Submit", class: "btn btn-default" %>
+                    <% end %>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" style="padding-top: 2px; padding-bottom: 2px" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img class="avatar size32 img-rounded" src="https://pbs.twimg.com/profile_images/588747534446694400/RHdZU34p_normal.jpg" alt="Profile and settings" data-user-id="15151287">
+                        <%= image_tag current_user.info.profile_image_uri(size = :normal), class: "avatar size32 img-rounded" %>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
                         <li><%= link_to 'Logout', logout_path, method: :delete  %></li>
                     </ul>
-                    <li><a class="btn btn-info btn-xs" href="#" role="button">Tweet</a></li>
+                    <li style="margin-top: 10px"><!-- Button trigger modal -->
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#tweetModal">
+                            Tweet
+                        </button>
+                    </li>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->
+        <!-- Modal -->
+        <div class="modal fade" id="tweetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-center" id="myModalLabel">Compose New Tweet</h4>
+                    </div>
+                    <div class="modal-body">
+                        <%= form_for :tweet, url: tweets_path do |f| %>
+                            <div class="form-group">
+                                <%= f.text_area(:status, class: 'form-control')  %>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <%= f.submit "Tweet", class: "btn btn-info" %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div><!-- /.container-fluid -->
 </nav>
