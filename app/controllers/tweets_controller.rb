@@ -38,8 +38,12 @@ class TweetsController < ApplicationController
   end
 
   def refresh
-    # @tweets = JSON.parse(File.read(Rails.root.join("test/fixtures/josh_tweets.json"))).map { |t| Hashie::Mash.new(t) }
     @tweets = current_user.twitter_client.home_timeline({since_id: params[:id]})
+    render layout: false
+  end
+
+  def load_more
+    @tweets = current_user.twitter_client.home_timeline({max_id: params[:id]})
     render layout: false
   end
 
