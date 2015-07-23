@@ -27,7 +27,7 @@
                         <%= render partial: 'shared/tweets', locals: {tweet: tweet}  %>
                     <% end %>
                 </ul>
-                <div id="loader"></div>
+                <div class="text-center invisible" id="spinner"><%= image_tag 'load_spinner.gif' %></div>
             </div>
         </div>
     </div>

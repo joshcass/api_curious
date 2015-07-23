@@ -1,15 +1,14 @@
 $(document).ready(function() {
     function addTweets() {
         var $tweetID = $('.tweet-list li:last-child').attr('id');
-        var $loader = $('div#loader');
+        var $spinner = $('div#spinner');
         $tweetID = (parseInt($tweetID, 10) - 100).toString();
-
-        $loader.html('<img src="/assets/load_spinner.gif"/>');
+        $spinner.removeClass('invisible');
 
         $.ajax({ url: '/tweets/' + $tweetID + '/load_more', success: function(data){
             $(data).hide().appendTo('.tweet-list').slideDown();
         }, dataType: 'html'});
-        $loader.empty();
+        $spinner.addClass('invisible');
     };
 
     $(window).scroll(function() {
