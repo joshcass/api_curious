@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   post '/tweets/search', to: 'tweets#search', as: 'search_tweets'
   post '/tweets/reply', to: 'tweets#reply', as: 'reply_tweet'
   get 'tweets/:id/refresh', to: 'tweets#refresh'
+  get 'tweets/:id/load_more', to: 'tweets#load_more'
 
 end
 
