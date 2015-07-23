@@ -25,7 +25,8 @@ class TweetsController < ApplicationController
 
   def search
     @search_query = valid_params[:query]
-    @search_results = current_user.twitter_client.search(@search_query, {count: 20})
+    results = current_user.twitter_client.search(@search_query)
+    @search_results = results.to_h.fetch(:statuses).map { |t| Hashie::Mash.new(t) }
   end
 
   def reply
