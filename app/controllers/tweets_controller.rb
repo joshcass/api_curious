@@ -25,7 +25,7 @@ class TweetsController < ApplicationController
 
   def search
     @search_query = valid_params[:query]
-    @search_results = current_user.twitter_client.search(@search_query)
+    @search_results = current_user.twitter_client.search(@search_query, {count: 20})
   end
 
   def reply
@@ -43,7 +43,6 @@ class TweetsController < ApplicationController
   end
 
   def load_more
-    # @tweets = JSON.parse(File.read(File.join(Rails.root, "test", "fixtures", "josh_tweets.json"))).map {|t| Hashie::Mash.new(t)}
     @tweets = current_user.twitter_client.home_timeline({max_id: params[:id]})
     render layout: false
   end
