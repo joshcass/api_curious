@@ -3,7 +3,7 @@ require 'test_helper'
 class UserLogsInWithTwitterTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
   def setup
-    Capybara.app = ::Application
+    Capybara.app = APICurious::Application
     stub_omniauth
   end
 
@@ -19,18 +19,19 @@ class UserLogsInWithTwitterTest < ActionDispatch::IntegrationTest
         }
       },
       credentials: {
-        token: "pizza",
-        secret: "secretpizza"
+        token: Figaro.env.sample_oauth_token,
+        secret: Figaro.env.sample_oauth_secret
       }
     })
   end
 
   test 'logging in' do
-    visit "/"
-    assert_equal 200, page.status_code
-    click_link "Login"
-    assert_equal "/", current_path
-    assert page.has_content?("josh")
-    assert page.has_link?("Logout")
+    VCR.use_cassette("user-timeline") do
+      visit '/'
+      assert_equal 200, page.status_code
+      click_link "Login With Twitter"
+      assert page.has_css? ".tweet-box"
+      assert page.has_css? ".tweet-list"
+    end
   end
 end
