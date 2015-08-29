@@ -2,6 +2,6 @@
 
 A small clone of a Twitter user’s homepage. Emphasis was on functionality over design. Uses OAuth to establish API credentials and make calls on a user’s behalf. New tweets are updated into the list with a long-polling AJAX call. Infinite scrolling through past tweets is also implemented using Javascript.
 
-Live Production URL: tweet-er.herokuapp.com
+Live Production URL: http://tweet-er.herokuapp.com
 
 Project Spec: https://github.com/turingschool/curriculum/blob/master/source/projects/apicurious.markdown
